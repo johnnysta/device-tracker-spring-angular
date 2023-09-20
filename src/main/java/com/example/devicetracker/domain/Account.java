@@ -11,12 +11,12 @@ public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    Long id;
 
     @Column(name = "user_name")
-    String usrName;
+    String userName;
 
-    @Column(name = "user_email")
+    @Column(name = "user_email", unique = true)
     String email;
 
     @Column(name="user_password")

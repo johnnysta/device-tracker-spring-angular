@@ -15,7 +15,8 @@ export class RegisterUserComponent {
     this.registrationForm = this.formBuilder.group({
       email: [''],
       username: [''],
-      password: ['']
+      password: [''],
+      confirm_password: ['']
     })
 
   }

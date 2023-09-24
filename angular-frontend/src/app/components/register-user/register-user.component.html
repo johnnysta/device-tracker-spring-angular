@@ -2,47 +2,47 @@
   <form [formGroup]="registrationForm"  (submit)="submitData()">
     <div class="mb-3">
       <label
-        for="email"
+        for="user_email"
         class="form-label"
       >Email address</label>
       <input
         type="email"
         class="form-control"
-        id="email"
-        formControlName="email">
+        id="user_email"
+        formControlName="user_email">
     </div>
     <div class="mb-3">
       <label
-        for="username"
+        for="user_name"
         class="form-label"
       >User name</label>
       <input
         type="text"
         class="form-control"
-        id="username"
-        formControlName="username">
+        id="user_name"
+        formControlName="user_name">
     </div>
     <div class="mb-3">
       <label
-        for="password"
+        for="user_password"
         class="form-label"
       >Password</label>
       <input
         type="password"
         class="form-control"
-        id="password"
-        formControlName="password">
+        id="user_password"
+        formControlName="user_password">
     </div>
     <div class="mb-3">
       <label
-        for="confirm_password"
+        for="confirm_user_password"
         class="form-label"
       >Confirm password</label>
       <input
         type="password"
         class="form-control"
-        id="confirm_password"
-        formControlName="confirm_password">
+        id="confirm_user_password"
+        formControlName="confirm_user_password">
     </div>
     <button
       type="submit"

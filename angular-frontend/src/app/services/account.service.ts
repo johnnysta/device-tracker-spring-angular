@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {AccountListItemModel} from "../models/account-list-item.model";
+import {AccountRegistrationDataModel} from "../models/account-registration-data.model";
 
 const BASE_URL = "http://localhost:8080/api/accounts"
 
@@ -17,4 +18,7 @@ export class AccountService {
   }
 
 
+  registerUser(registrationData: AccountRegistrationDataModel) {
+    return this.http.post<AccountRegistrationDataModel>(BASE_URL, registrationData);
+  }
 }

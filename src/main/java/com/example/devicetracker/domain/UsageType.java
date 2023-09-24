@@ -13,4 +13,8 @@ public enum UsageType {
     UsageType(String displayName) {
         this.displayName = displayName;
     }
+
+    public String getDisplayName() {
+        return displayName;
+    }
 }

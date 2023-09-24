@@ -8,11 +8,13 @@ public enum DeviceType {
     WATCH ("Watch"),
     OTHER ("Other");
 
-
     private String displayName;
-
 
     DeviceType(String displayName) {
         this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 }

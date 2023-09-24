@@ -8,13 +8,15 @@ import {HttpClientModule} from "@angular/common/http";
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ListUsersComponent } from './components/list-users/list-users.component';
 import { RegisterUserComponent } from './components/register-user/register-user.component';
+import { RegisterDeviceComponent } from './components/register-device/register-device.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     ListUsersComponent,
-    RegisterUserComponent
+    RegisterUserComponent,
+    RegisterDeviceComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {AuthenticatedUserModel} from "../../models/authenticated-user.model";
 
 @Component({
   selector: 'app-navbar',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+
+  @Input() public user?: AuthenticatedUserModel | null=null;
 
 }

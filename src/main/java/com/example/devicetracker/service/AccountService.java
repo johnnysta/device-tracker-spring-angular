@@ -28,9 +28,12 @@ public class AccountService {
                 collect(Collectors.toList());
     }
 
-    public void saveAccount(AccountRegistrationData accountRegistrationData) {
+    public void saveRegisteredAccount(AccountRegistrationData accountRegistrationData) {
         accountRepository.save(accountFromAccountRegistrationData(accountRegistrationData));
+    }
 
+    public void saveAccount(Account account){
+        accountRepository.save(account);
     }
 
     private Account accountFromAccountRegistrationData(AccountRegistrationData accountRegistrationData) {
@@ -39,5 +42,13 @@ public class AccountService {
         account.setEmail(accountRegistrationData.getUser_email());
         account.setPassword(accountRegistrationData.getUser_password());
         return account;
+    }
+
+    public boolean existsAccountByGoogleUser(String oAuthGmail) {
+        return accountRepository.existsAccountByGoogleUser(oAuthGmail);
+    }
+
+    public boolean existsAccountByGitHubUser(String oAuthGitHubUser) {
+        return accountRepository.existsAccountByGitHubUser(oAuthGitHubUser);
     }
 }

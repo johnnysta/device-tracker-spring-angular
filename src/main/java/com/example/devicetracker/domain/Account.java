@@ -19,8 +19,13 @@ public class Account {
     @Column(name = "user_email", unique = true)
     String email;
 
-    @Column(name="user_password")
+    @Column(name = "user_password")
     String password;
 
+    @Column(name = "github_user")
+    String gitHubUser;
+
+    @Column(name = "google_user")
+    String googleUser;
 
 }

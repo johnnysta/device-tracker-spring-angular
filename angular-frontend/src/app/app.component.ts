@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   title = 'angular-frontend';
   loggedInUser: AuthenticatedUserModel | null = null;
 
+
   constructor(private accountService: AccountService,
               private router: Router) {
   }
@@ -30,11 +31,13 @@ export class AppComponent implements OnInit {
             return true;
           }
         }
+        this.accountService.loggedInUser.next(this.loggedInUser);
       },
       error:
         err => {
           this.loggedInUser = null;
-          this.router.navigate([''])
+          this.accountService.loggedInUser.next(this.accountService.INITIAL_USER_STATE);
+          this.router.navigate(['home'])
         }
     });
   }

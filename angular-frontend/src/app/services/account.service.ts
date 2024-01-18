@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {AccountListItemModel} from "../models/account-list-item.model";
 import {AccountRegistrationDataModel} from "../models/account-registration-data.model";
 import {environment} from "../../environments/environment";
@@ -11,7 +11,20 @@ import {AuthenticatedUserModel} from "../models/authenticated-user.model";
 })
 export class AccountService {
 
+
+  readonly INITIAL_USER_STATE: AuthenticatedUserModel = {
+    userName: '',
+    email: '',
+    isLoggedIn(): boolean {
+      return false;
+    },
+  };
+
+
   private BASE_URL: string = environment.serverUrl + '/api/accounts';
+
+
+  loggedInUser: BehaviorSubject<AuthenticatedUserModel> = new BehaviorSubject<AuthenticatedUserModel>(this.INITIAL_USER_STATE);
 
   constructor(private http: HttpClient) {
   }
@@ -36,6 +49,10 @@ export class AccountService {
   }
 
   getUserInfo(): Observable<AuthenticatedUserModel> {
-    return this.http.get<AuthenticatedUserModel>(this.BASE_URL + 'urerInfo');
+    return this.http.get<AuthenticatedUserModel>(this.BASE_URL + 'userInfo');
+  }
+
+  logout(): Observable<void> {
+    return this.http.get<void>(this.BASE_URL + '/logout');
   }
 }

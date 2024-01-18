@@ -17,6 +17,7 @@ public class SecurityConfig {
     private final CustomSuccessHandler customSuccessHandler;
     private final CustomFailureHandler customFailureHandler;
     private final CustomOauth2UserService customOauth2UserService;
+    private final CustomLogoutSuccesHandler customLogoutSuccesHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

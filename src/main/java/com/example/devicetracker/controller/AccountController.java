@@ -2,15 +2,14 @@ package com.example.devicetracker.controller;
 
 import com.example.devicetracker.dto.incoming.AccountRegistrationData;
 import com.example.devicetracker.dto.outgoing.AccountListItem;
+import com.example.devicetracker.dto.outgoing.AuthenticatedUserDataDto;
 import com.example.devicetracker.service.AccountService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -44,6 +43,14 @@ public class AccountController {
         log.info("ALLOWED");
     }
 
+    @GetMapping("/userInfo")
+    public ResponseEntity<AuthenticatedUserDataDto> getUserInfo(Principal principal) {
+        AuthenticatedUserDataDto authenticatedUserDataDto = null;
+        if (principal != null) {
+            authenticatedUserDataDto = accountService.mapPrincipalToUserData(principal);
+        }
+        return new ResponseEntity<>(authenticatedUserDataDto, HttpStatus.OK);
+    }
 
     @GetMapping("/secure")
     public ResponseEntity<String> hello(Principal principal) {
@@ -52,7 +59,7 @@ public class AccountController {
     }
 
     @GetMapping("/github_oauth_result")
-    public void hello_result(HttpServletRequest request, HttpServletResponse response, Authentication authentication, Principal principal ) throws IOException {
+    public void hello_result(HttpServletRequest request, HttpServletResponse response, Authentication authentication, Principal principal) throws IOException {
         log.debug("User successfully logged in to application!");
         log.info("PRINCI PÁL II." + principal.toString());
 //        return new ResponseEntity("Hello, secured by github", HttpStatus.OK);

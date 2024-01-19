@@ -1,0 +1,39 @@
+<div class="container w-75 shadow my-3 p-5 rounded" *ngIf="initData">
+  <form [formGroup]="deviceForm" (submit)="submitData()">
+    <div class="mb-3">
+      <label
+        for="deviceName"
+        class="form-label"
+      >Device name:</label>
+      <input
+        type="text"
+        class="form-control"
+        id="deviceName"
+        formControlName="deviceName">
+    </div>
+    <div class="mb-3">
+      <label
+        for="userId"
+        class="form-label"
+      >User:</label>
+      <input
+        type="number"
+        class="form-control"
+        id="userId"
+        formControlName="userId">
+    </div>
+
+    <div formArrayName="usageTypeList" *ngFor="let usageType of initData.usageTypeList; let i = index">
+      <label>
+        <input type="checkbox" [formControlName]="i">
+        {{ usageType.displayName }}
+      </label>
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+    >Submit
+    </button>
+  </form>
+</div>

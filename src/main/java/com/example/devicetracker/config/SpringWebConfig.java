@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 @Configuration
 @ComponentScan({"com.example"})
-public class SpringWebConfig  implements WebMvcConfigurer {
+public class SpringWebConfig implements WebMvcConfigurer {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -24,9 +24,12 @@ public class SpringWebConfig  implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200", "http://127.0.0.1:4200", "http://localhost:57479")
-                .allowedMethods("GET", "POST", "DELETE", "PUT")
-                .allowCredentials(true);
+                .allowedOrigins("http://localhost:4200", "http://localhost:4200/", "http://127.0.0.1:4200",
+                        "http://localhost:57479", "http://localhost:4200/*", "http://127.0.0.1:4200/*")
+                .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS")
+                .allowCredentials(true)
+                .allowedHeaders("*")
+                .exposedHeaders("Cache-Control", "Content-Language", "Content-Type", "Expires", "Last-Modified", "Pragma", "Location");
     }
 }
 

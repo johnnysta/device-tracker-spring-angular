@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
 })
 export class AppComponent implements OnInit {
   title = 'angular-frontend';
-  loggedInUser: AuthenticatedUserModel | null = null;
+  loggedInUser?: AuthenticatedUserModel | null;
 
 
   constructor(private accountService: AccountService,
@@ -24,12 +24,13 @@ export class AppComponent implements OnInit {
   getUserInfo(): void {
     this.accountService.getUserInfo().subscribe({
       next: (value) => {
+        console.log("value  " + value);
         this.loggedInUser = value;
-        this.loggedInUser = {
-          ...value,
-          isLoggedIn(): boolean {
-            return true;
-          }
+        if (value) {
+          this.loggedInUser.isLoggedIn = true;
+          console.log("USER EMAIL:" + this.loggedInUser.email);
+        } else {
+          this.loggedInUser = this.accountService.INITIAL_USER_STATE;
         }
         this.accountService.loggedInUser.next(this.loggedInUser);
       },

@@ -15,9 +15,7 @@ export class AccountService {
   readonly INITIAL_USER_STATE: AuthenticatedUserModel = {
     userName: '',
     email: '',
-    isLoggedIn(): boolean {
-      return false;
-    },
+    isLoggedIn: false
   };
 
 
@@ -49,7 +47,7 @@ export class AccountService {
   }
 
   getUserInfo(): Observable<AuthenticatedUserModel> {
-    return this.http.get<AuthenticatedUserModel>(this.BASE_URL + 'userInfo');
+    return this.http.get<AuthenticatedUserModel>(this.BASE_URL + '/userInfo');
   }
 
   logout(): Observable<void> {

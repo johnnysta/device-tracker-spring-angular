@@ -60,7 +60,6 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
         }
         // Return a default value or handle the case when the provider cannot be determined
         return "Unknown";
-
     }
 
 }

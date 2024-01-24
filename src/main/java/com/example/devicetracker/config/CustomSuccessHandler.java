@@ -23,24 +23,25 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException {
-//        log.info("PRINCI PÁL II." + principal.toString());
-//        System.out.println("User successfully logged in to application!");
 
         OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
         // Extract details like Principal, Authorities, etc.
         OAuth2User oauth2User = oauthToken.getPrincipal();
 
         String provider = determineAuthenticationProvider(authentication);
-
-        log.info("PROVIDDER:");
+        log.info("PROVIDER:");
         log.info(provider);
-
 
         // You can now extract attributes from the OAuth2User
         String name = oauth2User.getAttribute("name");
         String email = oauth2User.getAttribute("email");
+        Long id = ((CustomOAuth2User) oauth2User).getUserId();
 
-        String redirectUrl = successfulRedirectUrl + "?name=" + name + "&email=" + email + "&provider" + provider;
+        String redirectUrl = successfulRedirectUrl +
+                "?name=" + name +
+                "&email=" + email +
+                "&provider=" + provider +
+                "&id=" + id;
         response.sendRedirect(redirectUrl);
     }
 

@@ -9,4 +9,8 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     boolean existsAccountByGoogleUser(String googleUser);
 
     boolean existsAccountByGitHubUser(String gitHubUser);
+
+    Account findByGoogleUser(String oAuthGmail);
+
+    Account findByGitHubUser(String oAuthGitHubUser);
 }

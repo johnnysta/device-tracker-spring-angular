@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'angular-frontend';
+  title = 'Device Tracker';
   loggedInUser?: AuthenticatedUserModel | null;
 
 
@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
           this.loggedInUser = this.accountService.INITIAL_USER_STATE;
         }
         this.accountService.loggedInUser.next(this.loggedInUser);
+        this.router.navigate(['home']);
       },
       error:
         err => {

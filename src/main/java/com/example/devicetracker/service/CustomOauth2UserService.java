@@ -1,5 +1,6 @@
 package com.example.devicetracker.service;
 
+import com.example.devicetracker.config.CustomOAuth2User;
 import com.example.devicetracker.domain.Account;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,33 +25,48 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
+        CustomOAuth2User customOAuth2User = new CustomOAuth2User();
+        Account account = new Account();
         boolean isNewUser = false;
-        Account user = new Account();
         switch (determineAuthenticationProvider(oAuth2User)) {
             case "Google": {
                 String oAuthGmail = (String) oAuth2User.getAttributes().get("email");
-                if (!accountService.existsAccountByGoogleUser(oAuthGmail)) {
+                account = accountService.findAccountByGoogleUser(oAuthGmail);
+                if (account != null) {
+                    customOAuth2User = new CustomOAuth2User(account, oAuth2User);
+                }
+                else {
                     isNewUser = true;
-                    user.setGoogleUser(oAuthGmail);
-                    user.setEmail(oAuthGmail);
-                    user.setUserName((String) oAuth2User.getAttributes().get("name"));
-//                user.setUserName((String) oAuth2User.getAttributes().get("user"));
+                    account = new Account();
+                    account.setGoogleUser(oAuthGmail);
+                    account.setEmail(oAuthGmail);
+                    account.setUserName((String) oAuth2User.getAttributes().get("name"));
+                    customOAuth2User = new CustomOAuth2User(account, oAuth2User);
                 }
                 break;
             }
             case "GitHub": {
                 String oAuthGitHubUser = (String) oAuth2User.getAttributes().get("login");
-                if (!accountService.existsAccountByGitHubUser(oAuthGitHubUser)) {
-                    isNewUser = true;
-                    user.setGitHubUser(oAuthGitHubUser);
-                    user.setUserName(oAuthGitHubUser);
+                account = accountService.findAccountByGitHubUser(oAuthGitHubUser);
+                if (account != null) {
+                    customOAuth2User = new CustomOAuth2User(account, oAuth2User);
                 }
+                else {
+                    isNewUser = true;
+                    account = new Account();
+                    account.setGitHubUser(oAuthGitHubUser);
+                    account.setUserName(oAuthGitHubUser);
+                    account.setUserName((String) oAuth2User.getAttributes().get("name"));
+                    customOAuth2User = new CustomOAuth2User(account, oAuth2User);
+                }
+                break;
             }
         }
         if (isNewUser) {
-            accountService.saveAccount(user);
+            account = accountService.saveAccount(account);
+            customOAuth2User = new CustomOAuth2User(account, oAuth2User);
         }
-        return oAuth2User;
+        return customOAuth2User;
     }
 
 

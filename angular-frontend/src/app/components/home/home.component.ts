@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {AuthenticatedUserModel} from "../../models/authenticated-user.model";
+import {AccountService} from "../../services/account.service";
 
 @Component({
   selector: 'app-home',
@@ -8,13 +10,21 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class HomeComponent {
 
-  constructor(private route: ActivatedRoute) {
+  loggedInUser!: AuthenticatedUserModel;
+
+  constructor(private accountService: AccountService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.accountService.loggedInUser.subscribe
+    ({next: value => this.loggedInUser = value});
+
     this.route.queryParams.subscribe({
       next: (params) => {
-        console.log('params: ', params);
+        const userId = params['id'];
+        const provider = params['provider'];
+        console.log('userId: ', userId);
+        console.log('provider: ', provider);
       },
     });
   }

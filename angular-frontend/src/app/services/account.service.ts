@@ -15,7 +15,8 @@ export class AccountService {
   readonly INITIAL_USER_STATE: AuthenticatedUserModel = {
     userName: '',
     email: '',
-    isLoggedIn: false
+    isLoggedIn: false,
+    id: -1
   };
 
 
@@ -42,8 +43,6 @@ export class AccountService {
 
   logInWithGoogle() {
     window.location.href = environment.serverUrl + '/oauth2/authorization/google';
-
-
   }
 
   getUserInfo(): Observable<AuthenticatedUserModel> {

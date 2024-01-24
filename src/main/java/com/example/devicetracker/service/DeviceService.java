@@ -1,8 +1,10 @@
 package com.example.devicetracker.service;
 
+import com.example.devicetracker.domain.Device;
 import com.example.devicetracker.domain.DeviceType;
 import com.example.devicetracker.domain.UsageType;
 import com.example.devicetracker.dto.outgoing.DeviceCreationInitDataDto;
+import com.example.devicetracker.dto.outgoing.DeviceListItemDto;
 import com.example.devicetracker.dto.outgoing.DeviceTypeListItemDto;
 import com.example.devicetracker.dto.outgoing.UsageTypeListItemDto;
 import com.example.devicetracker.repository.DeviceRepository;
@@ -43,4 +45,12 @@ public class DeviceService {
     }
 
 
+    public List<DeviceListItemDto> getDevicesByUserId(Long id) {
+        List<Device> resultDevices = deviceRepository.findAllByUserId(id);
+        List<DeviceListItemDto> resultDevicesDto = new ArrayList<>();
+        resultDevices.forEach(device -> {
+            resultDevicesDto.add(new DeviceListItemDto(device));
+        });
+        return resultDevicesDto;
+    }
 }

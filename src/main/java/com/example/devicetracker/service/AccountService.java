@@ -1,11 +1,13 @@
 package com.example.devicetracker.service;
 
 
+import com.example.devicetracker.config.CustomOAuth2User;
 import com.example.devicetracker.domain.Account;
 import com.example.devicetracker.dto.incoming.AccountRegistrationData;
 import com.example.devicetracker.dto.outgoing.AccountListItem;
 import com.example.devicetracker.dto.outgoing.AuthenticatedUserDataDto;
 import com.example.devicetracker.repository.AccountRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -37,8 +39,8 @@ public class AccountService {
         accountRepository.save(accountFromAccountRegistrationData(accountRegistrationData));
     }
 
-    public void saveAccount(Account account) {
-        accountRepository.save(account);
+    public Account saveAccount(Account account) {
+        return accountRepository.save(account);
     }
 
     private Account accountFromAccountRegistrationData(AccountRegistrationData accountRegistrationData) {
@@ -72,8 +74,9 @@ public class AccountService {
                     authenticatedUserDataDto.setUserName((String) oAuth2User.getAttributes().get("login"));
                 }
             }
+            authenticatedUserDataDto.setId(((CustomOAuth2User) oAuth2User).getUserId());
         } else if (principal instanceof UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) {
-            //Place for normal (not Oauth2) authentication
+            //Place for normal (not oAauth2) authentication
         }
         return authenticatedUserDataDto;
     }
@@ -90,6 +93,22 @@ public class AccountService {
         }
         // Return a default value or handle the case when the provider cannot be determined
         return "Unknown";
+    }
+
+    public Account findAccountByGoogleUser(String oAuthGmail) {
+        try {
+            return accountRepository.findByGoogleUser(oAuthGmail);
+        } catch (EntityNotFoundException e) {
+            return null;
+        }
+    }
+
+    public Account findAccountByGitHubUser(String oAuthGitHubUser) {
+        try {
+            return accountRepository.findByGitHubUser(oAuthGitHubUser);
+        } catch (EntityNotFoundException e) {
+            return null;
+        }
     }
 
 }

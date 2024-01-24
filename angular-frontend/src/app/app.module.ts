@@ -10,8 +10,6 @@ import { ListUsersComponent } from './components/list-users/list-users.component
 import { RegisterUserComponent } from './components/register-user/register-user.component';
 import { RegisterDeviceComponent } from './components/register-device/register-device.component';
 import { ListDevicesComponent } from './components/list-devices/list-devices.component';
-import { GithubLoginComponent } from './components/login/github-login/github-login.component';
-import { GoogleLoginComponent } from './components/login/google-login/google-login.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import {HttpRequestInterceptor} from "./utils/interceptors/httpRequestInterceptor";
@@ -25,8 +23,6 @@ import {CookieService} from 'ngx-cookie-service';
     RegisterUserComponent,
     RegisterDeviceComponent,
     ListDevicesComponent,
-    GithubLoginComponent,
-    GoogleLoginComponent,
     LoginComponent,
     HomeComponent
   ],

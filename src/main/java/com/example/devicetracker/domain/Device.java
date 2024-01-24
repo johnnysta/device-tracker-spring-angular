@@ -14,6 +14,8 @@ public class Device {
     private Long id;
     @Column(name="device_name")
     private String deviceName;
+    @Column(name="imei_number")
+    private String imeiNumber;
     @ManyToOne
     private Account user;
     @Enumerated(EnumType.STRING)

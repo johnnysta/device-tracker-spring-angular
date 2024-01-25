@@ -3,6 +3,9 @@ import {DeviceRegistrationInitDataModel} from "../../models/device-registration-
 import {DeviceService} from "../../services/device.service";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {DeviceRegistrationDataModel} from "../../models/device-registration-data.model";
+import {AuthenticatedUserModel} from "../../models/authenticated-user.model";
+import {AccountService} from "../../services/account.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -13,12 +16,16 @@ import {DeviceRegistrationDataModel} from "../../models/device-registration-data
 export class RegisterDeviceComponent implements OnInit {
   initData!: DeviceRegistrationInitDataModel;
   deviceForm: FormGroup;
+  loggedInUser!: AuthenticatedUserModel;
 
 
-  constructor(private deviceService: DeviceService, private formBuilder: FormBuilder) {
+  constructor(private deviceService: DeviceService,
+              private formBuilder: FormBuilder,
+              private accountService: AccountService,
+              private router: Router) {
     this.deviceForm = this.formBuilder.group({
       deviceName: ['', Validators.required],
-      userId: [null, Validators.required],
+      imeiNumber: ['', Validators.required],
       deviceType: [],
       usageTypeList: this.formBuilder.array([])
     })
@@ -27,6 +34,14 @@ export class RegisterDeviceComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.accountService.loggedInUser.subscribe(
+      {
+        next: user => this.loggedInUser = user,
+        error: err => console.log(err)
+      });
+    console.log("user: " + this.loggedInUser.userName);
+    console.log("id: " + this.loggedInUser.id);
+
     this.deviceService.getDeviceFormInitData().subscribe({
       next: value => {
         this.initData = value;
@@ -44,13 +59,22 @@ export class RegisterDeviceComponent implements OnInit {
   submitData() {
     const deviceData: DeviceRegistrationDataModel = this.deviceForm.value;
     deviceData.usageTypeList = this.createUsageTypeArrayToSend();
+    console.log("id2: " + this.loggedInUser.id);
+    deviceData.userId = this.loggedInUser.id;
+    console.log("id3: " + deviceData.userId);
     console.log(this.deviceForm.value.usageTypeList.toString());
-    //console.log(this.createUsageTypeArrayToSend().toString());
-    // this.deviceService.sendDeviceRegistration(deviceData).subscribe(
-    //   {next: ()=> {},
-    //     error: (err) => {console.log(err)},
-    //     complete: () =>{}
-    //   });
+    console.log(this.deviceForm.value.deviceType.toString());
+    this.deviceService.sendDeviceRegistration(deviceData).subscribe(
+      {
+        next: () => {
+        },
+        error: (err) => {
+          console.log(err)
+        },
+        complete: () => {
+          this.router.navigate(['home']);
+        }
+      });
   }
 
   //cerating contorls for check box array
@@ -62,7 +86,7 @@ export class RegisterDeviceComponent implements OnInit {
     }
   }
 
-  //ctring array for true-false values array
+  //creating array for true-false values array
   private createUsageTypeArrayToSend(): string[] {
     return this.deviceForm.value.usageTypeList
       .map((type: string, index: number) => type ? this.initData.usageTypeList[index].name : null)

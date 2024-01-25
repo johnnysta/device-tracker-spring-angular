@@ -13,14 +13,29 @@
     </div>
     <div class="mb-3">
       <label
-        for="userId"
+        for="imeiId"
         class="form-label"
-      >User:</label>
+      >IMEI number:</label>
       <input
-        type="number"
+        type="text"
         class="form-control"
-        id="userId"
-        formControlName="userId">
+        id="imeiId"
+        formControlName="imeiNumber">
+    </div>
+
+    <div class="mb-3">
+      <label
+        for="deviceType"
+        class="form-label"
+      >Device type:</label>
+      <select
+        formControlName="deviceType"
+        class="form-control"
+        id="deviceType"
+      >
+        <option *ngFor="let deviceType of initData.deviceTypeList"
+                value="{{deviceType.name}}">{{deviceType.displayName}}</option>
+      </select>
     </div>
 
     <div formArrayName="usageTypeList" *ngFor="let usageType of initData.usageTypeList; let i = index">

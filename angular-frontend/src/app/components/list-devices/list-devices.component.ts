@@ -3,6 +3,7 @@ import {AccountListItemModel} from "../../models/account-list-item.model";
 import {AuthenticatedUserModel} from "../../models/authenticated-user.model";
 import {DeviceListItemModel} from "../../models/device-list-item.model";
 import {DeviceService} from "../../services/device.service";
+import {DeviceTrackStatusChangeModel} from "../../models/device-track-status-change.model";
 
 @Component({
   selector: 'app-list-devices',
@@ -34,4 +35,24 @@ export class ListDevicesComponent implements OnInit {
   }
 
 
+  toggleTracking(i: number) {
+    this.devicesList[i].isTracked = !this.devicesList[i].isTracked;
+    const deviceStatusChange: DeviceTrackStatusChangeModel = {
+      deviceId: this.devicesList[i].deviceId,
+      isTracked: this.devicesList[i].isTracked,
+    };
+    console.log("device id: " + this.devicesList[i].deviceId);
+    console.log("device istracked: " + this.devicesList[i].isTracked);
+    this.deviceService.setTrackedStatus(deviceStatusChange).subscribe(
+      {
+        next: () => {
+        },
+        error: () => {
+        },
+        complete: () => {
+          console.log("Tracking status changed on backend.")
+        }
+      });
+
+  }
 }

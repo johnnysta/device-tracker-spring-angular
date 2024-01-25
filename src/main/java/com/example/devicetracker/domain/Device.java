@@ -3,6 +3,7 @@ package com.example.devicetracker.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,12 +17,14 @@ public class Device {
     private String deviceName;
     @Column(name="imei_number")
     private String imeiNumber;
+    @Column(name="is_tracked")
+    private boolean isTracked;
     @ManyToOne
     private Account user;
     @Enumerated(EnumType.STRING)
     private DeviceType deviceType;
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = UsageType.class, fetch=FetchType.EAGER)
-    private List<UsageType> usageTypeList;
+    private List<UsageType> usageTypeList = new ArrayList<>();
 
 }

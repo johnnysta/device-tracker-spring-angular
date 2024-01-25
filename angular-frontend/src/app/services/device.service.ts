@@ -4,8 +4,11 @@ import {Observable} from "rxjs";
 import {DeviceRegistrationInitDataModel} from "../models/device-registration-init-data.model";
 import {DeviceRegistrationDataModel} from "../models/device-registration-data.model";
 import {DeviceListItemModel} from "../models/device-list-item.model";
+import {DeviceTrackStatusChangeModel} from "../models/device-track-status-change.model";
 
 const BASE_URL = "http://localhost:8080/api/devices"
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +29,10 @@ export class DeviceService {
 
   getDevicesByUserId(id: number): Observable<DeviceListItemModel[]> {
     return this.http.get<DeviceListItemModel[]>(BASE_URL + "/devices_by_user/" + id);
+  }
+
+  setTrackedStatus(deviceTrackStatusChange: DeviceTrackStatusChangeModel) {
+    return this.http.post<DeviceTrackStatusChangeModel>(BASE_URL+ "/device_change_track_status", deviceTrackStatusChange)
+
   }
 }

@@ -8,6 +8,7 @@ import com.example.devicetracker.dto.outgoing.AccountListItem;
 import com.example.devicetracker.dto.outgoing.AuthenticatedUserDataDto;
 import com.example.devicetracker.repository.AccountRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -21,14 +22,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class AccountService {
 
     private AccountRepository accountRepository;
 
-    @Autowired
-    public AccountService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
 
     public List<AccountListItem> getAllAccounts() {
         return this.accountRepository.findAll().stream().map(AccountListItem::new).
@@ -111,4 +109,7 @@ public class AccountService {
         }
     }
 
+    public Account findAccountById(Long userId) {
+        return accountRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+    }
 }

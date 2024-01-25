@@ -1,7 +1,4 @@
-<p>list-devices works!</p>
 <h1>Tracked devices of {{loggedInUser.userName}}</h1>
-
-
 <table class="table table-striped">
   <thead>
   <tr>
@@ -16,7 +13,7 @@
     </th>
   </tr>
   </thead>
-  <tbody *ngFor="let item of devicesList">
+  <tbody *ngFor="let item of devicesList, let i=index">
   <tr>
     <td>
       {{item.deviceName}}
@@ -24,10 +21,16 @@
     <td>
       {{item.deviceType}}
     </td>
-    <td *ngFor="let usage of item.usageTypeList">
-      {{usage}}
+    <td>
+      <ng-container *ngFor="let usage of item.usageTypeList">
+      {{usage}} <br>
+      </ng-container>
     </td>
     <td>
+      <button *ngIf="!item.isTracked" (click)="toggleTracking(i)">Start tracking</button>
+      <button *ngIf="item.isTracked" (click)="toggleTracking(i)">Stop tracking</button>
+      <button>Edit</button>
+      <button>Delete</button>
     </td>
     <td>
     </td>

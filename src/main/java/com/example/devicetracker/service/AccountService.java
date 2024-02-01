@@ -3,13 +3,12 @@ package com.example.devicetracker.service;
 
 import com.example.devicetracker.config.CustomOAuth2User;
 import com.example.devicetracker.domain.Account;
-import com.example.devicetracker.dto.incoming.AccountRegistrationData;
-import com.example.devicetracker.dto.outgoing.AccountListItem;
-import com.example.devicetracker.dto.outgoing.AuthenticatedUserDataDto;
+import com.example.devicetracker.dto.in.AccountRegistrationData;
+import com.example.devicetracker.dto.out.AccountListItem;
+import com.example.devicetracker.dto.out.AuthenticatedUserDataDto;
 import com.example.devicetracker.repository.AccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;

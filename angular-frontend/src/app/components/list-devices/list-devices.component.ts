@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AccountListItemModel} from "../../models/account-list-item.model";
 import {AuthenticatedUserModel} from "../../models/authenticated-user.model";
 import {DeviceListItemModel} from "../../models/device-list-item.model";
 import {DeviceService} from "../../services/device.service";
 import {DeviceTrackStatusChangeModel} from "../../models/device-track-status-change.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-list-devices',
@@ -17,10 +17,18 @@ export class ListDevicesComponent implements OnInit {
 
   devicesList!: DeviceListItemModel[];
 
-  constructor(private deviceService: DeviceService) {
+  currentDeviceId!: number;
+  currentDeviceName!: string;
+
+  constructor(private deviceService: DeviceService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
+    this.loadDevices();
+  }
+
+  loadDevices() {
     this.deviceService.getDevicesByUserId(this.loggedInUser.id).subscribe({
       next: value => {
         this.devicesList = value;
@@ -30,6 +38,10 @@ export class ListDevicesComponent implements OnInit {
       },
       complete: () => {
         console.log("Device data retrieved successfully");
+        this.devicesList.forEach((item, index, array) => {
+          console.log(item.deviceName);
+          console.log((item.isTracked) ? "true" : "false")
+        });
       }
     });
   }
@@ -54,5 +66,47 @@ export class ListDevicesComponent implements OnInit {
         }
       });
 
+  }
+
+  openDeleteModal(id: number, name: string) {
+    const modelDiv = document.getElementById('confirmDeleteModal');
+    if (modelDiv != null) {
+      console.log("Delete Modal opened..")
+      modelDiv.style.display = 'block';
+      this.currentDeviceId = id;
+      this.currentDeviceName = name;
+    }
+  }
+
+  closeDeleteModal() {
+    const modelDiv = document.getElementById('confirmDeleteModal');
+    if (modelDiv != null) {
+      modelDiv.style.display = 'none';
+    }
+  }
+
+
+  deleteDevice() {
+    this.deviceService.deleteDeviceById(this.currentDeviceId).subscribe({
+      next: () => {
+      },
+      error: (err: any) => {
+        console.log(err)
+      },
+      complete: () => {
+        console.log("Device with id " + this.currentDeviceId + " was deleted successfully.");
+        this.loadDevices();
+      }
+    });
+    this.closeDeleteModal();
+  }
+
+
+  updateDevice(id: number) {
+    this.router.navigate(['device-registration-update', id]);
+  }
+
+  goToDeviceRegistration() {
+    this.router.navigate(['device-registration-update']);
   }
 }

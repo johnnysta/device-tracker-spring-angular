@@ -1,8 +1,8 @@
 package com.example.devicetracker.controller;
 
-import com.example.devicetracker.dto.incoming.AccountRegistrationData;
-import com.example.devicetracker.dto.outgoing.AccountListItem;
-import com.example.devicetracker.dto.outgoing.AuthenticatedUserDataDto;
+import com.example.devicetracker.dto.in.AccountRegistrationData;
+import com.example.devicetracker.dto.out.AccountListItem;
+import com.example.devicetracker.dto.out.AuthenticatedUserDataDto;
 import com.example.devicetracker.service.AccountService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -59,7 +59,7 @@ public class AccountController {
     }
 
     @GetMapping("/github_oauth_result")
-    public void hello_result(HttpServletRequest request, HttpServletResponse response, Authentication authentication, Principal principal) throws IOException {
+    public void hello_result(HttpServletResponse response, Principal principal) throws IOException {
         log.debug("User successfully logged in to application!");
         log.info("PRINCI PÁL II." + principal.toString());
 //        return new ResponseEntity("Hello, secured by github", HttpStatus.OK);

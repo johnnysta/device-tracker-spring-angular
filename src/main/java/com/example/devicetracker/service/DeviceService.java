@@ -4,12 +4,12 @@ import com.example.devicetracker.domain.Account;
 import com.example.devicetracker.domain.Device;
 import com.example.devicetracker.domain.DeviceType;
 import com.example.devicetracker.domain.UsageType;
-import com.example.devicetracker.dto.incoming.DeviceCreationCommandDto;
-import com.example.devicetracker.dto.incoming.DeviceTrackStatusChangeDto;
-import com.example.devicetracker.dto.outgoing.DeviceCreationInitDataDto;
-import com.example.devicetracker.dto.outgoing.DeviceListItemDto;
-import com.example.devicetracker.dto.outgoing.DeviceTypeListItemDto;
-import com.example.devicetracker.dto.outgoing.UsageTypeListItemDto;
+import com.example.devicetracker.dto.in.DeviceTrackStatusChangeDto;
+import com.example.devicetracker.dto.in_out.DeviceDetailsDto;
+import com.example.devicetracker.dto.out.DeviceCreationInitDataDto;
+import com.example.devicetracker.dto.out.DeviceListItemDto;
+import com.example.devicetracker.dto.out.DeviceTypeListItemDto;
+import com.example.devicetracker.dto.out.UsageTypeListItemDto;
 import com.example.devicetracker.mapping.DeviceMapper;
 import com.example.devicetracker.repository.DeviceRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,9 +17,9 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Transactional
 @Service
@@ -57,19 +57,36 @@ public class DeviceService {
         List<DeviceListItemDto> resultDevicesDto = new ArrayList<>();
         resultDevices.forEach(device -> {
             resultDevicesDto.add(new DeviceListItemDto(device));
+            log.info((device.getIsTracked()) ? "tracked:  true" : "tracked: false");
         });
         return resultDevicesDto;
     }
 
     public void setTrackedStatus(DeviceTrackStatusChangeDto deviceTrackStatusChangeDto) {
         log.info(deviceTrackStatusChangeDto.getDeviceId().toString());
-        Device foundDevice = deviceRepository.findById(deviceTrackStatusChangeDto.getDeviceId()).orElseThrow(EntityNotFoundException::new);
-        foundDevice.setTracked(deviceTrackStatusChangeDto.getIsTracked());
-        deviceRepository.save(foundDevice);
+        Device deviceFound = deviceRepository.findById(deviceTrackStatusChangeDto.getDeviceId()).orElseThrow(EntityNotFoundException::new);
+        deviceFound.setIsTracked(deviceTrackStatusChangeDto.getIsTracked());
+        deviceRepository.save(deviceFound);
     }
 
-    public void registerDevice(DeviceCreationCommandDto deviceCreationCommandDto) {
-        Account user = accountService.findAccountById(deviceCreationCommandDto.getUserId());
-        deviceRepository.save(deviceMapper.mapFromDeviceCreationDtoToDevice(deviceCreationCommandDto, user));
+    public void registerDevice(DeviceDetailsDto deviceDetailsDto) {
+        Account user = accountService.findAccountById(deviceDetailsDto.getUserId());
+        deviceRepository.save(deviceMapper.mapFromDeviceDetailsDtoToDevice(deviceDetailsDto, user));
+    }
+
+    public void deleteDeviceById(Long deviceId) {
+        deviceRepository.deleteById(deviceId);
+        //TODO delete all device related tracking data
+    }
+
+    public DeviceDetailsDto findDeviceById(Long deviceId) {
+        Device deviceFound = deviceRepository.findById(deviceId).orElseThrow(EntityNotFoundException::new);
+        return deviceMapper.mapFromDeviceToDeviceDetailsDto(deviceFound);
+    }
+
+    public void updateDeviceById(Long deviceId, DeviceDetailsDto deviceDetailsDto) {
+        Device deviceFound = deviceRepository.findById(deviceId).orElseThrow(EntityNotFoundException::new);
+        deviceMapper.mapFromDeviceDetailsDtoToExistingDevice(deviceDetailsDto, deviceFound);
+        deviceRepository.save(deviceFound);
     }
 }

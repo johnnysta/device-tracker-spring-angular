@@ -18,7 +18,7 @@ public class Device {
     @Column(name="imei_number")
     private String imeiNumber;
     @Column(name="is_tracked")
-    private boolean isTracked;
+    private Boolean isTracked;
     @ManyToOne
     private Account user;
     @Enumerated(EnumType.STRING)
@@ -26,5 +26,6 @@ public class Device {
     @Enumerated(EnumType.STRING)
     @ElementCollection(targetClass = UsageType.class, fetch=FetchType.EAGER)
     private List<UsageType> usageTypeList = new ArrayList<>();
+
 
 }

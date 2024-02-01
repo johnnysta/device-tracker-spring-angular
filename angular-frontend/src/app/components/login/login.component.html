@@ -1,4 +1,17 @@
-<h1>Please log in</h1>
-
-<button (click)="logInWithGoogle()">Log in using Google</button>
-<button (click)="logInWithGitHub()">Log in using GitHub</button>
+<div class="container w-75 shadow my-3 p-5 rounded">
+  <h3 class="mb-3">Please log in first in order to manage your devices</h3>
+  <div class="flex-column m-auto p-3 align-content-center">
+    <div>
+      <button class="btn custom-grey m-2 w-25 min-width-85" (click)="logInWithGoogle()">
+        <img alt="googleLogo" class="logo-size" src="assets\images\Google\png@2x\dark\web_dark_rd_na@2x.png">
+        Log in using Google
+      </button>
+    </div>
+    <div>
+      <button class="btn custom-grey m-2 w-25 min-width-85" (click)="logInWithGitHub()">
+        <img alt="gitHubLogo" class="logo-size" src="assets/images/GitHub-Mark-64px.png">
+        Log in using GitHub
+      </button>
+    </div>
+  </div>
+</div>

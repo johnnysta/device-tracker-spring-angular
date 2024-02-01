@@ -1,2 +1,3 @@
+<app-login *ngIf="!loggedInUser.isLoggedIn"></app-login>
 <app-list-devices [loggedInUser]="loggedInUser" *ngIf="loggedInUser.isLoggedIn"></app-list-devices>
 

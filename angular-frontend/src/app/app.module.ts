@@ -8,12 +8,13 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ListUsersComponent } from './components/list-users/list-users.component';
 import { RegisterUserComponent } from './components/register-user/register-user.component';
-import { RegisterDeviceComponent } from './components/register-device/register-device.component';
+import { RegisterUpdateDeviceComponent } from './components/register-device/register-update-device.component';
 import { ListDevicesComponent } from './components/list-devices/list-devices.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import {HttpRequestInterceptor} from "./utils/interceptors/httpRequestInterceptor";
 import {CookieService} from 'ngx-cookie-service';
+import { TestComponent } from './components/test/test.component';
 
 @NgModule({
   declarations: [
@@ -21,10 +22,11 @@ import {CookieService} from 'ngx-cookie-service';
     NavbarComponent,
     ListUsersComponent,
     RegisterUserComponent,
-    RegisterDeviceComponent,
+    RegisterUpdateDeviceComponent,
     ListDevicesComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    TestComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-package com.example.devicetracker.dto.outgoing;
+package com.example.devicetracker.dto.out;
 
 import com.example.devicetracker.domain.Device;
 import com.example.devicetracker.domain.DeviceType;
@@ -15,7 +15,7 @@ public class DeviceListItemDto {
     private DeviceType deviceType;
     private String imeiNumber;
     private List<UsageType> usageTypeList;
-    private boolean isTracked;
+    private Boolean isTracked;
 
     public DeviceListItemDto(Device device) {
         this.deviceName = device.getDeviceName();
@@ -24,6 +24,6 @@ public class DeviceListItemDto {
         this.deviceType = device.getDeviceType();
         this.imeiNumber = device.getImeiNumber();
         this.usageTypeList = device.getUsageTypeList();
-        this.isTracked = device.isTracked();
+        this.isTracked = device.getIsTracked();
     }
 }

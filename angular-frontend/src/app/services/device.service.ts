@@ -2,12 +2,11 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {DeviceRegistrationInitDataModel} from "../models/device-registration-init-data.model";
-import {DeviceRegistrationDataModel} from "../models/device-registration-data.model";
 import {DeviceListItemModel} from "../models/device-list-item.model";
 import {DeviceTrackStatusChangeModel} from "../models/device-track-status-change.model";
+import {DeviceDetailsDataModel} from "../models/device-details-data.model";
 
 const BASE_URL = "http://localhost:8080/api/devices"
-
 
 
 @Injectable({
@@ -23,8 +22,8 @@ export class DeviceService {
     return this.http.get<DeviceRegistrationInitDataModel>(BASE_URL + "/init-data");
   }
 
-  sendDeviceRegistration(deviceData: DeviceRegistrationDataModel) {
-    return this.http.post<DeviceRegistrationDataModel>(BASE_URL, deviceData);
+  sendDeviceRegistration(deviceData: DeviceDetailsDataModel) {
+    return this.http.post<DeviceDetailsDataModel>(BASE_URL, deviceData);
   }
 
   getDevicesByUserId(id: number): Observable<DeviceListItemModel[]> {
@@ -32,7 +31,21 @@ export class DeviceService {
   }
 
   setTrackedStatus(deviceTrackStatusChange: DeviceTrackStatusChangeModel) {
-    return this.http.post<DeviceTrackStatusChangeModel>(BASE_URL+ "/device_change_track_status", deviceTrackStatusChange)
+    return this.http.post<DeviceTrackStatusChangeModel>(BASE_URL + "/device_change_track_status", deviceTrackStatusChange)
+
+  }
+
+  deleteDeviceById(i: number) {
+    return this.http.delete(BASE_URL + "/delete/" + i);
+  }
+
+  getDeviceById(id: number) {
+    return this.http.get<DeviceDetailsDataModel>(BASE_URL + "/device_by_id/" + id);
+  }
+
+  sendDeviceUpdate(deviceData: DeviceDetailsDataModel) {
+    console.log("DeviceID: " + deviceData.deviceId)
+    return this.http.put<DeviceDetailsDataModel>(BASE_URL + "/" + deviceData.deviceId, deviceData);
 
   }
 }

@@ -1,4 +1,4 @@
-package com.example.devicetracker.dto.outgoing;
+package com.example.devicetracker.dto.out;
 
 import lombok.Data;
 

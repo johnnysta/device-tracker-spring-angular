@@ -1,11 +1,11 @@
 package com.example.devicetracker.controller;
 
-import com.example.devicetracker.dto.incoming.DeviceCreationCommandDto;
-import com.example.devicetracker.dto.incoming.DeviceTrackStatusChangeDto;
-import com.example.devicetracker.dto.outgoing.DeviceCreationInitDataDto;
-import com.example.devicetracker.dto.outgoing.DeviceListItemDto;
-import com.example.devicetracker.dto.outgoing.DeviceTypeListItemDto;
+import com.example.devicetracker.dto.in.DeviceTrackStatusChangeDto;
+import com.example.devicetracker.dto.in_out.DeviceDetailsDto;
+import com.example.devicetracker.dto.out.DeviceCreationInitDataDto;
+import com.example.devicetracker.dto.out.DeviceListItemDto;
 import com.example.devicetracker.service.DeviceService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/devices")
+@Slf4j
 public class DeviceController {
 
     private DeviceService deviceService;
@@ -29,22 +30,43 @@ public class DeviceController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> registerDevice(@RequestBody DeviceCreationCommandDto deviceCreationCommandDto){
-        deviceService.registerDevice(deviceCreationCommandDto);
+    public ResponseEntity<Void> registerDevice(@RequestBody DeviceDetailsDto deviceDetailsDto) {
+        deviceService.registerDevice(deviceDetailsDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete/{deviceId}")
+    public ResponseEntity<Void> deletDevice(@PathVariable Long deviceId) {
+        deviceService.deleteDeviceById(deviceId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/devices_by_user/{userId}")
     public ResponseEntity<List<DeviceListItemDto>> getDevicesByUserId(@PathVariable Long userId) {
         List<DeviceListItemDto> results = deviceService.getDevicesByUserId(userId);
+        results.forEach(device -> {
+            log.info((device.getIsTracked()) ? "tracked:  true" : "tracked: false");
+        });
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
     @PostMapping("/device_change_track_status")
-    public ResponseEntity<Void> setTrackedStatus(@RequestBody DeviceTrackStatusChangeDto deviceTrackStatusChangeDto){
+    public ResponseEntity<Void> setTrackedStatus(@RequestBody DeviceTrackStatusChangeDto deviceTrackStatusChangeDto) {
         deviceService.setTrackedStatus(deviceTrackStatusChangeDto);
-        return  new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    @GetMapping("/device_by_id/{deviceId}")
+    public ResponseEntity<DeviceDetailsDto> findDeviceById(@PathVariable Long deviceId) {
+        DeviceDetailsDto deviceDetailsDto = deviceService.findDeviceById(deviceId);
+        return new ResponseEntity<>(deviceDetailsDto, HttpStatus.OK);
+    }
+
+    @PutMapping("/{deviceId}")
+    public ResponseEntity<Void> updateDeviceById(@PathVariable Long deviceId, @RequestBody DeviceDetailsDto deviceDetailsDto) {
+        deviceService.updateDeviceById(deviceId, deviceDetailsDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

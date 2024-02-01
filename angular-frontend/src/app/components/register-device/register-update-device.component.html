@@ -1,4 +1,9 @@
 <div class="container w-75 shadow my-3 p-5 rounded" *ngIf="initData">
+
+  <h3 class="mb-3" *ngIf="existingDeviceData">Edit Device</h3>
+  <h3 class="mb-3" *ngIf="!existingDeviceData">Add New Device</h3>
+
+
   <form [formGroup]="deviceForm" (submit)="submitData()">
     <div class="mb-3">
       <label
@@ -40,14 +45,14 @@
 
     <div formArrayName="usageTypeList" *ngFor="let usageType of initData.usageTypeList; let i = index">
       <label>
-        <input type="checkbox" [formControlName]="i">
+        <input type="checkbox" [formControlName]="i" [checked]="existingDeviceDataContains(usageType.name)">
         {{ usageType.displayName }}
       </label>
     </div>
 
     <button
       type="submit"
-      class="btn btn-primary"
+      class="btn btn-success"
     >Submit
     </button>
   </form>

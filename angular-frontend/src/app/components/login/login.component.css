@@ -1,0 +1,14 @@
+.logo-size {
+  width: 26px; /* Set your desired width */
+  height: 26px; /* Set your desired height */
+}
+
+
+.custom-grey{
+  background-color: #999
+}
+
+
+.custom-grey:hover {
+  background-color: #dcdcdc;
+}

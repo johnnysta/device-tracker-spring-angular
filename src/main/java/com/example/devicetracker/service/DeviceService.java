@@ -89,4 +89,9 @@ public class DeviceService {
         deviceMapper.mapFromDeviceDetailsDtoToExistingDevice(deviceDetailsDto, deviceFound);
         deviceRepository.save(deviceFound);
     }
+
+    public Device findDeviceByImeiNumber(String imeiNumber) {
+        Device deviceFound = deviceRepository.findByImeiNumber(imeiNumber).orElseThrow(EntityNotFoundException::new);
+        return deviceFound;
+    }
 }

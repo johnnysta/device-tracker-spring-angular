@@ -15,7 +15,7 @@ public class Device {
     private Long id;
     @Column(name="device_name")
     private String deviceName;
-    @Column(name="imei_number")
+    @Column(name="imei_number", unique = true)
     private String imeiNumber;
     @Column(name="is_tracked")
     private Boolean isTracked;

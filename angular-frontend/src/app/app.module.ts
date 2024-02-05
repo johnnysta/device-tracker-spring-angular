@@ -15,6 +15,7 @@ import { HomeComponent } from './components/home/home.component';
 import {HttpRequestInterceptor} from "./utils/interceptors/httpRequestInterceptor";
 import {CookieService} from 'ngx-cookie-service';
 import { TestComponent } from './components/test/test.component';
+import { ShowDeviceOnMapComponent } from './components/show-device-on-map/show-device-on-map.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { TestComponent } from './components/test/test.component';
     ListDevicesComponent,
     LoginComponent,
     HomeComponent,
-    TestComponent
+    TestComponent,
+    ShowDeviceOnMapComponent
   ],
   imports: [
     BrowserModule,

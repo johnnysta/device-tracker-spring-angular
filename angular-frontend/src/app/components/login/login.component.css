@@ -3,12 +3,11 @@
   height: 26px; /* Set your desired height */
 }
 
-
 .custom-grey{
-  background-color: #999
+  background-color: #cbcbcb
 }
 
 
 .custom-grey:hover {
-  background-color: #dcdcdc;
+  background-color: #ececec;
 }

@@ -16,7 +16,7 @@ const routes: Routes = [
   {path: "devices", component: ListDevicesComponent},
   {path: "device-registration-update/:id", component: RegisterUpdateDeviceComponent},
   {path: "device-registration-update", component: RegisterUpdateDeviceComponent},
-  {path: "show-device-on-map/:id", component: ShowDeviceOnMapComponent},
+  {path: "show-device-on-map/:name", component: ShowDeviceOnMapComponent},
   {path: "home", component: HomeComponent},
   {path: "test", component: TestComponent},
   {path: "**", redirectTo: "/home"},

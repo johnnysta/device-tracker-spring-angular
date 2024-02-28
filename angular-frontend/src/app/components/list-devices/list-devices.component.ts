@@ -110,7 +110,7 @@ export class ListDevicesComponent implements OnInit {
     this.router.navigate(['device-registration-update']);
   }
 
-  showDeviceOnMap(deviceName: string) {
-    this.router.navigate(['show-device-on-map', deviceName]);
+  showDeviceOnMap(deviceName: string, deviceId: number) {
+    this.router.navigate(['show-device-on-map', deviceName, deviceId]);
   }
 }

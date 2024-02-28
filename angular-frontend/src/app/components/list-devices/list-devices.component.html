@@ -59,9 +59,16 @@
         </td>
         <td class="tw-align-middle tw-p-2">
           <div class="tw-inline-flex tw-align-middle tw-my-4 tw-gap-1">
-            <button class="btn custom-grey btn-sm btn-outline-dark" (click)="updateDevice(item.deviceId)"><img width="25" height="25" src="assets/images/edit/icons8-edit-50.png"></button>
-            <button class="btn custom-grey btn-sm btn-outline-dark" (click)="openDeleteModal(item.deviceId, item.deviceName)"><img  width="25" height="25" src ="assets/images/delete/icons8-delete-50.png"/></button>
-            <button class="btn custom-grey btn-sm btn-outline-dark" (click)="showDeviceOnMap(item.deviceName)"><img width="35" height="35" src="assets/images/map/icons8-map-48.png"/></button>
+            <button class="btn custom-grey btn-sm btn-outline-dark" (click)="updateDevice(item.deviceId)"><img
+              width="25" height="25" src="assets/images/edit/icons8-edit-50.png"></button>
+            <button class="btn custom-grey btn-sm btn-outline-dark"
+                    (click)="openDeleteModal(item.deviceId, item.deviceName)"><img width="25" height="25"
+                                                                                   src="assets/images/delete/icons8-delete-50.png"/>
+            </button>
+            <button class="btn custom-grey btn-sm btn-outline-dark"
+                    (click)="showDeviceOnMap(item.deviceName, item.deviceId)"><img width="35" height="35"
+                                                                                   src="assets/images/map/icons8-map-48.png"/>
+            </button>
           </div>
         </td>
       </tr>

@@ -2,6 +2,7 @@ package com.example.devicetracker.controller;
 
 import com.example.devicetracker.dto.in.DeviceTrackStatusChangeDto;
 import com.example.devicetracker.dto.in_out.DeviceDetailsDto;
+import com.example.devicetracker.dto.in_out.TrackingSettingsDataDto;
 import com.example.devicetracker.dto.out.DeviceCreationInitDataDto;
 import com.example.devicetracker.dto.out.DeviceListItemDto;
 import com.example.devicetracker.service.DeviceService;
@@ -17,7 +18,7 @@ import java.util.List;
 @Slf4j
 public class DeviceController {
 
-    private DeviceService deviceService;
+    private final DeviceService deviceService;
 
     public DeviceController(DeviceService deviceService) {
         this.deviceService = deviceService;
@@ -59,13 +60,27 @@ public class DeviceController {
 
     @GetMapping("/device_by_id/{deviceId}")
     public ResponseEntity<DeviceDetailsDto> findDeviceById(@PathVariable Long deviceId) {
-        DeviceDetailsDto deviceDetailsDto = deviceService.findDeviceById(deviceId);
+        DeviceDetailsDto deviceDetailsDto = deviceService.findDeviceDetailsDtoById(deviceId);
         return new ResponseEntity<>(deviceDetailsDto, HttpStatus.OK);
     }
 
-    @PutMapping("/{deviceId}")
+    @PutMapping("{deviceId}")
     public ResponseEntity<Void> updateDeviceById(@PathVariable Long deviceId, @RequestBody DeviceDetailsDto deviceDetailsDto) {
         deviceService.updateDeviceById(deviceId, deviceDetailsDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    @GetMapping("/trackingSettings/{deviceId}")
+    public ResponseEntity<TrackingSettingsDataDto> getTrackingSettings(@PathVariable Long deviceId){
+        TrackingSettingsDataDto trackingSettingsDataDto = deviceService.findTrackingSettingsDataDtoById(deviceId);
+        return new ResponseEntity<>(trackingSettingsDataDto, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/trackingSettings/{deviceId}")
+    public ResponseEntity<Void> updateTrackingSettings(@PathVariable Long deviceId, @RequestBody TrackingSettingsDataDto trackingSettingsDataDto){
+        deviceService.setTrackingSettingsById(deviceId, trackingSettingsDataDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -5,8 +5,9 @@ import {DeviceRegistrationInitDataModel} from "../models/device-registration-ini
 import {DeviceListItemModel} from "../models/device-list-item.model";
 import {DeviceTrackStatusChangeModel} from "../models/device-track-status-change.model";
 import {DeviceDetailsDataModel} from "../models/device-details-data.model";
+import {environment} from "../../environments/environment";
 
-const BASE_URL = "http://localhost:8080/api/devices"
+const BASE_URL: string = environment.serverUrl + '/api/devices';
 
 
 @Injectable({

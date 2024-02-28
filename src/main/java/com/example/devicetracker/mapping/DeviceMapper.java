@@ -1,9 +1,6 @@
 package com.example.devicetracker.mapping;
 
-import com.example.devicetracker.domain.Account;
-import com.example.devicetracker.domain.Device;
-import com.example.devicetracker.domain.DeviceType;
-import com.example.devicetracker.domain.UsageType;
+import com.example.devicetracker.domain.*;
 import com.example.devicetracker.dto.in_out.DeviceDetailsDto;
 import org.springframework.stereotype.Component;
 
@@ -20,6 +17,7 @@ public class DeviceMapper {
         device.setUser(user);
         device.setIsTracked(false);
         deviceDetailsDto.getUsageTypeList().forEach(usageType -> device.getUsageTypeList().add(UsageType.valueOf(usageType)));
+        device.setTrackingSettings(new TrackingSettings());
         return device;
     }
 

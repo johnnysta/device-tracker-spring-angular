@@ -1,17 +1,17 @@
 package com.example.devicetracker.service;
 
-import com.example.devicetracker.domain.Account;
-import com.example.devicetracker.domain.Device;
-import com.example.devicetracker.domain.DeviceType;
-import com.example.devicetracker.domain.UsageType;
+import com.example.devicetracker.domain.*;
 import com.example.devicetracker.dto.in.DeviceTrackStatusChangeDto;
 import com.example.devicetracker.dto.in_out.DeviceDetailsDto;
+import com.example.devicetracker.dto.in_out.TrackingSettingsDataDto;
 import com.example.devicetracker.dto.out.DeviceCreationInitDataDto;
 import com.example.devicetracker.dto.out.DeviceListItemDto;
 import com.example.devicetracker.dto.out.DeviceTypeListItemDto;
 import com.example.devicetracker.dto.out.UsageTypeListItemDto;
 import com.example.devicetracker.mapping.DeviceMapper;
+import com.example.devicetracker.mapping.TrackingSettingsMapper;
 import com.example.devicetracker.repository.DeviceRepository;
+import com.example.devicetracker.repository.TrackingSettingsRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -30,6 +30,8 @@ public class DeviceService {
     private DeviceRepository deviceRepository;
     private DeviceMapper deviceMapper;
     private AccountService accountService;
+    private TrackingSettingsRepository trackingSettingsRepository;
+    private TrackingSettingsMapper trackingSettingsMapper;
 
     public DeviceCreationInitDataDto getInitData() {
         return new DeviceCreationInitDataDto(getDeviceTypeList(), getUsageTypeList());
@@ -79,7 +81,12 @@ public class DeviceService {
         //TODO delete all device related tracking data
     }
 
-    public DeviceDetailsDto findDeviceById(Long deviceId) {
+    public Device findDeviceById(Long deviceId) {
+        Device deviceFound = deviceRepository.findById(deviceId).orElseThrow(EntityNotFoundException::new);
+        return deviceFound;
+    }
+
+    public DeviceDetailsDto findDeviceDetailsDtoById(Long deviceId) {
         Device deviceFound = deviceRepository.findById(deviceId).orElseThrow(EntityNotFoundException::new);
         return deviceMapper.mapFromDeviceToDeviceDetailsDto(deviceFound);
     }
@@ -93,5 +100,24 @@ public class DeviceService {
     public Device findDeviceByImeiNumber(String imeiNumber) {
         Device deviceFound = deviceRepository.findByImeiNumber(imeiNumber).orElseThrow(EntityNotFoundException::new);
         return deviceFound;
+    }
+
+    public TrackingSettingsDataDto findTrackingSettingsDataDtoById(Long deviceId) {
+        Device deviceFound = deviceRepository.findById(deviceId).orElseThrow(EntityNotFoundException::new);
+//        TrackingSettings trackingSettings = deviceFound.getTrackingSettings();
+        TrackingSettings trackingSettings = trackingSettingsRepository.findById(deviceFound.getTrackingSettings().getId()).orElseThrow(EntityNotFoundException::new);
+        return trackingSettingsMapper.mapTrackingSettingsToTrackingSettingsDataDto(trackingSettings);
+    }
+
+
+    public void setTrackingSettingsById(Long deviceId, TrackingSettingsDataDto trackingSettingsDataDto) {
+        Device deviceFound = deviceRepository.findById(deviceId).orElseThrow(EntityNotFoundException::new);
+        //        TrackingSettings trackingSettings = deviceFound.getTrackingSettings();
+        TrackingSettings trackingSettings = trackingSettingsRepository.findById(deviceFound.getTrackingSettings().getId()).orElseThrow(EntityNotFoundException::new);
+        trackingSettings.setMeteringFrequency(trackingSettingsDataDto.getMeteringFrequency());
+        trackingSettings.setGeofenceRadius(trackingSettingsDataDto.getGeofenceRadius());
+        trackingSettings.getGeofenceCenter().setLatitude(trackingSettingsDataDto.getGeofenceCenterLatitude());
+        trackingSettings.getGeofenceCenter().setLongitude(trackingSettingsDataDto.getGeofenceCenterLongitude());
+        trackingSettingsRepository.save(trackingSettings);
     }
 }

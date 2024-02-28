@@ -6,6 +6,8 @@ import {AccountRegistrationDataModel} from "../models/account-registration-data.
 import {environment} from "../../environments/environment";
 import {AuthenticatedUserModel} from "../models/authenticated-user.model";
 
+const BASE_URL: string = environment.serverUrl + '/api/accounts';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,21 +22,18 @@ export class AccountService {
   };
 
 
-  private BASE_URL: string = environment.serverUrl + '/api/accounts';
-
-
   loggedInUser: BehaviorSubject<AuthenticatedUserModel> = new BehaviorSubject<AuthenticatedUserModel>(this.INITIAL_USER_STATE);
 
   constructor(private http: HttpClient) {
   }
 
   getAllAccounts(): Observable<AccountListItemModel[]> {
-    return this.http.get<AccountListItemModel[]>(this.BASE_URL);
+    return this.http.get<AccountListItemModel[]>(BASE_URL);
   }
 
 
   registerUser(registrationData: AccountRegistrationDataModel) {
-    return this.http.post<AccountRegistrationDataModel>(this.BASE_URL, registrationData);
+    return this.http.post<AccountRegistrationDataModel>(BASE_URL, registrationData);
   }
 
   logInWithGithub() {
@@ -46,10 +45,10 @@ export class AccountService {
   }
 
   getUserInfo(): Observable<AuthenticatedUserModel> {
-    return this.http.get<AuthenticatedUserModel>(this.BASE_URL + '/userInfo');
+    return this.http.get<AuthenticatedUserModel>(BASE_URL + '/userInfo');
   }
 
   logout(): Observable<void> {
-    return this.http.get<void>(this.BASE_URL + '/logout');
+    return this.http.get<void>(BASE_URL + '/logout');
   }
 }

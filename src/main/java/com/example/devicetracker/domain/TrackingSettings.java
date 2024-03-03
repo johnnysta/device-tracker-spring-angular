@@ -16,7 +16,10 @@ public class TrackingSettings {
     @Column(nullable = false, name = "metering_frequency")
     private Integer meteringFrequency = 1;
 
-    @JoinColumn(name = "_id")
+    @Column(name = "is_geofence_active")
+    private Boolean isGeofenceActive;
+
+    @JoinColumn(name = "geofence_center_id")
     @OneToOne(cascade = CascadeType.ALL)
     private Location geofenceCenter;
 

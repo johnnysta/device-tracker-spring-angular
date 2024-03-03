@@ -10,9 +10,12 @@ public class TrackingSettingsMapper {
     public TrackingSettingsDataDto mapTrackingSettingsToTrackingSettingsDataDto(TrackingSettings trackingSettings) {
         TrackingSettingsDataDto trackingSettingsDataDto = new TrackingSettingsDataDto();
         trackingSettingsDataDto.setMeteringFrequency(trackingSettings.getMeteringFrequency());
+        trackingSettingsDataDto.setIsGeofenceActive(trackingSettings.getIsGeofenceActive());
         trackingSettingsDataDto.setGeofenceRadius(trackingSettings.getGeofenceRadius());
-        trackingSettingsDataDto.setGeofenceCenterLatitude(trackingSettings.getGeofenceCenter().getLatitude());
-        trackingSettingsDataDto.setGeofenceCenterLatitude(trackingSettings.getGeofenceCenter().getLongitude());
+        if (trackingSettings.getGeofenceCenter() != null) {
+            trackingSettingsDataDto.setGeofenceCenterLatitude(trackingSettings.getGeofenceCenter().getLatitude());
+            trackingSettingsDataDto.setGeofenceCenterLongitude(trackingSettings.getGeofenceCenter().getLongitude());
+        }
         return trackingSettingsDataDto;
     }
 }

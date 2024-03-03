@@ -78,7 +78,7 @@ public class DeviceController {
     }
 
 
-    @PostMapping("/trackingSettings/{deviceId}")
+    @PutMapping("/trackingSettings/{deviceId}")
     public ResponseEntity<Void> updateTrackingSettings(@PathVariable Long deviceId, @RequestBody TrackingSettingsDataDto trackingSettingsDataDto){
         deviceService.setTrackingSettingsById(deviceId, trackingSettingsDataDto);
         return new ResponseEntity<>(HttpStatus.OK);

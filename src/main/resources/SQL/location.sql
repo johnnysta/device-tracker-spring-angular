@@ -1,0 +1,10 @@
+SELECT * FROM location;
+INSERT INTO location (id, latitude, longitude) VALUES (1, 111, 111);
+INSERT INTO location (id, latitude, longitude) VALUES (2, 75.32434,36.34434);
+INSERT INTO location (id, latitude, longitude) VALUES (3, 34.32434,12.34434);
+INSERT INTO location (id, latitude, longitude) VALUES (4, 36.32434,78.44434);
+INSERT INTO location (id, latitude, longitude) VALUES (5, 0.33434,0.48434);
+INSERT INTO location (id, latitude, longitude) VALUES (6, 56.23434,99.49434);
+INSERT INTO location (id, latitude, longitude) VALUES (7, 67.22434,110.49434);
+INSERT INTO location (id, latitude, longitude) VALUES (8, 45.22434,45.49434);
+INSERT INTO location (id, latitude, longitude) VALUES (9, 34.12434,114.49454);

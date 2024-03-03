@@ -8,6 +8,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {HomeComponent} from "./components/home/home.component";
 import {TestComponent} from "./components/test/test.component";
 import {ShowDeviceOnMapComponent} from "./components/show-device-on-map/show-device-on-map.component";
+import {TrackingSettingsComponent} from "./components/tracking-settings/tracking-settings.component";
 
 const routes: Routes = [
   {path: "users", component: ListUsersComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: "device-registration-update/:id", component: RegisterUpdateDeviceComponent},
   {path: "device-registration-update", component: RegisterUpdateDeviceComponent},
   {path: "show-device-on-map/:deviceName/:deviceId", component: ShowDeviceOnMapComponent},
+  {path: "tracking-settings/:deviceName/:deviceId", component: TrackingSettingsComponent},
   {path: "home", component: HomeComponent},
   {path: "test", component: TestComponent},
   {path: "**", redirectTo: "/home"},

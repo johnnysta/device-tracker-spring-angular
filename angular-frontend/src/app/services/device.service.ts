@@ -6,6 +6,7 @@ import {DeviceListItemModel} from "../models/device-list-item.model";
 import {DeviceTrackStatusChangeModel} from "../models/device-track-status-change.model";
 import {DeviceDetailsDataModel} from "../models/device-details-data.model";
 import {environment} from "../../environments/environment";
+import {DeviceTrackingSettingsDataModel} from "../models/device-tracking-settings-data.model";
 
 const BASE_URL: string = environment.serverUrl + '/api/devices';
 
@@ -49,4 +50,17 @@ export class DeviceService {
     return this.http.put<DeviceDetailsDataModel>(BASE_URL + "/" + deviceData.deviceId, deviceData);
 
   }
+
+  getSettingsByDeviceId(deviceId: number) {
+    return this.http.get<DeviceTrackingSettingsDataModel>(BASE_URL+ "/trackingSettings/" + deviceId);
+  }
+
+
+  setSettingsByDeviceId(deviceId: number, deviceTrackingSettingsDataModel: DeviceTrackingSettingsDataModel ) {
+    return this.http.put<DeviceTrackingSettingsDataModel>(BASE_URL+ "/trackingSettings/" + deviceId, deviceTrackingSettingsDataModel);
+  }
+
+
+
+
 }

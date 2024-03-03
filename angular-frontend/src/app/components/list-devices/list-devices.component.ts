@@ -113,4 +113,8 @@ export class ListDevicesComponent implements OnInit {
   showDeviceOnMap(deviceName: string, deviceId: number) {
     this.router.navigate(['show-device-on-map', deviceName, deviceId]);
   }
+
+  showTrackingSettings(deviceName: string, deviceId: number) {
+    this.router.navigate(["tracking-settings", deviceName, deviceId]);
+  }
 }

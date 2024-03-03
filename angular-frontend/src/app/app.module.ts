@@ -16,6 +16,7 @@ import {HttpRequestInterceptor} from "./utils/interceptors/httpRequestIntercepto
 import {CookieService} from 'ngx-cookie-service';
 import { TestComponent } from './components/test/test.component';
 import { ShowDeviceOnMapComponent } from './components/show-device-on-map/show-device-on-map.component';
+import { TrackingSettingsComponent } from './components/tracking-settings/tracking-settings.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { ShowDeviceOnMapComponent } from './components/show-device-on-map/show-d
     LoginComponent,
     HomeComponent,
     TestComponent,
-    ShowDeviceOnMapComponent
+    ShowDeviceOnMapComponent,
+    TrackingSettingsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {DeviceTrackingSettingsDataModel} from "../../models/device-tracking-settings-data.model";
 import {DeviceService} from "../../services/device.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Route, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {DeviceDetailsDataModel} from "../../models/device-details-data.model";
 
 @Component({
   selector: 'app-tracking-settings',
@@ -13,13 +14,15 @@ export class TrackingSettingsComponent implements OnInit {
 
   deviceTrackingSettingsDataModel!: DeviceTrackingSettingsDataModel;
   trackingSettingsForm: FormGroup;
+  currentDeviceId!: string | null;
 
   constructor(private deviceService: DeviceService,
+              private router: Router,
               private activatedRoute: ActivatedRoute,
               private formBuilder: FormBuilder) {
     this.trackingSettingsForm = this.formBuilder.group({
       meteringFrequency: ['1', Validators.required],
-      isGeofenceActive: ['false'],
+      isGeofenceActive: [],
       geofenceCenterLatitude: ['', Validators.required],
       geofenceCenterLongitude: ['', Validators.required],
       geofenceRadius: ['', Validators.required]
@@ -29,18 +32,22 @@ export class TrackingSettingsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe({
       next: param => {
-        const idFromParamMap = param.get('deviceId');
-        console.log("idFromParamMap: " + idFromParamMap);
-        if (idFromParamMap) {
-          this.deviceService.getSettingsByDeviceId(Number(idFromParamMap)).subscribe({
+        this.currentDeviceId = param.get('deviceId');
+        console.log("currentDeviceId in onInit of tracking settings: " + this.currentDeviceId);
+        if (this.currentDeviceId) {
+          this.deviceService.getSettingsByDeviceId(Number(this.currentDeviceId)).subscribe({
             next:
               (data) => {
+                console.log("Device's tracking settings retrieved successfully.")
                 this.deviceTrackingSettingsDataModel = data;
+                console.log(this.deviceTrackingSettingsDataModel.isGeofenceActive);
+                this.fillDeviceForm(this.deviceTrackingSettingsDataModel);
+                this.disableControlsByGeofencingOnOff();
               },
             error: () => {
+              console.log("Error retrieving device's tracking settings.")
             },
             complete: () => {
-              this.fillDeviceForm(this.deviceTrackingSettingsDataModel);
             }
           });
         }
@@ -60,12 +67,37 @@ export class TrackingSettingsComponent implements OnInit {
   }
 
   submitData() {
-
+    // const deviceSettingsData: DeviceTrackingSettingsDataModel = this.trackingSettingsForm.value;
+    const deviceSettingsData: DeviceTrackingSettingsDataModel = this.trackingSettingsForm.getRawValue();
+    console.log("IsgeofenceActive in submitData");
+    console.log(deviceSettingsData);
+    this.deviceService.setSettingsByDeviceId(Number(this.currentDeviceId), deviceSettingsData).subscribe(
+      {
+        next: () => {
+        },
+        error: (err) => {
+          console.log(err)
+        },
+        complete: () => {
+          this.router.navigate(['home']);
+        }
+      });
   }
 
-  toggleGeofencing() {
-    (this.trackingSettingsForm.get("geofenceCenterLatitude")?.disabled) ? this.trackingSettingsForm.get("geofenceCenterLatitude")?.enable() : this.trackingSettingsForm.get("geofenceCenterLatitude")?.disable();
-    (this.trackingSettingsForm.get("geofenceCenterLongitude")?.disabled) ? this.trackingSettingsForm.get("geofenceCenterLongitude")?.enable() : this.trackingSettingsForm.get("geofenceCenterLongitude")?.disable();
-    (this.trackingSettingsForm.get("geofenceRadius")?.disabled) ? this.trackingSettingsForm.get("geofenceRadius")?.enable() : this.trackingSettingsForm.get("geofenceRadius")?.disable();
+  disableControlsByGeofencingOnOff() {
+    console.log("In toggleGeofencing");
+    if (this.trackingSettingsForm.get("isGeofenceActive")?.value) {
+      this.trackingSettingsForm.get("geofenceCenterLatitude")?.enable();
+      this.trackingSettingsForm.get("geofenceCenterLongitude")?.enable();
+      this.trackingSettingsForm.get("geofenceRadius")?.enable();
+    } else {
+      this.trackingSettingsForm.get("geofenceCenterLatitude")?.disable();
+      this.trackingSettingsForm.get("geofenceCenterLongitude")?.disable();
+      this.trackingSettingsForm.get("geofenceRadius")?.disable();
+    }
+  }
+
+  closeWithoutSaving() {
+    this.router.navigate(['home']);
   }
 }

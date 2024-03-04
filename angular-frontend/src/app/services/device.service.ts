@@ -57,10 +57,15 @@ export class DeviceService {
 
 
   setSettingsByDeviceId(deviceId: number, deviceTrackingSettingsDataModel: DeviceTrackingSettingsDataModel ) {
+    console.log("In setSettingsByDeviceId");
+    console.log(deviceTrackingSettingsDataModel.isGeofenceActive);
+    console.log(deviceTrackingSettingsDataModel.geofenceCenterLongitude);
     return this.http.put<DeviceTrackingSettingsDataModel>(BASE_URL+ "/trackingSettings/" + deviceId, deviceTrackingSettingsDataModel);
   }
 
 
+  sendDeviceSettingsUpdate(currentDeviceId: string | null, deviceSettingsData: DeviceTrackingSettingsDataModel) {
 
 
+  }
 }

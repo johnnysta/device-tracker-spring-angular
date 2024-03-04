@@ -111,9 +111,7 @@ export class RegisterUpdateDeviceComponent implements OnInit {
         });
     }
 
-
     console.log("id2: " + this.loggedInUser.id);
-
     console.log("id3: " + deviceData.userId);
     console.log(this.deviceForm.value.usageTypeList.toString());
     console.log(this.deviceForm.value.deviceType.toString());

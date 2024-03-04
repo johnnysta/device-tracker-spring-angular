@@ -17,6 +17,7 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,9 +116,16 @@ public class DeviceService {
         //        TrackingSettings trackingSettings = deviceFound.getTrackingSettings();
         TrackingSettings trackingSettings = trackingSettingsRepository.findById(deviceFound.getTrackingSettings().getId()).orElseThrow(EntityNotFoundException::new);
         trackingSettings.setMeteringFrequency(trackingSettingsDataDto.getMeteringFrequency());
+        trackingSettings.setIsGeofenceActive(trackingSettingsDataDto.getIsGeofenceActive());
         trackingSettings.setGeofenceRadius(trackingSettingsDataDto.getGeofenceRadius());
-        trackingSettings.getGeofenceCenter().setLatitude(trackingSettingsDataDto.getGeofenceCenterLatitude());
-        trackingSettings.getGeofenceCenter().setLongitude(trackingSettingsDataDto.getGeofenceCenterLongitude());
+        Location geofenceCenter = trackingSettings.getGeofenceCenter();
+        if (geofenceCenter == null) {
+            geofenceCenter = new Location(trackingSettingsDataDto.getGeofenceCenterLatitude(), trackingSettingsDataDto.getGeofenceCenterLongitude());
+            trackingSettings.setGeofenceCenter(geofenceCenter);
+        } else {
+            geofenceCenter.setLatitude(trackingSettingsDataDto.getGeofenceCenterLatitude());
+            geofenceCenter.setLongitude(trackingSettingsDataDto.getGeofenceCenterLongitude());
+        }
         trackingSettingsRepository.save(trackingSettings);
     }
 }

@@ -1,97 +1,99 @@
-<div class="container w-75 shadow my-3 p-5 rounded">
-  <h3 class="mb-3">Tracked devices of {{loggedInUser.userName}}</h3>
+<div class="container p-5">
+  <div class="container w-75 shadow p-5 rounded bg-light bg-opacity-50 my-0">
+    <h3 class="mb-3">Tracked devices of {{loggedInUser.userName}}</h3>
 
-  <div class="tw-bg-white tw-rounded-md tw-min-w-fit tw-border tw-border-slate-200 tw-p-2.5">
-    <table
-      class="tw-border-collapse tw-table-auto  tw-text-sm tw-rounded-md tw-p-5">
-      <thead class="tw-bg-gray-200 tw-rounded-md">
-      <tr>
-        <th
-          class="tw-px-6 tw-py-4 tw-rounded-tl-md tw-text-sm">
-          Name
-        </th>
-        <th
-          class="tw-px-6 tw-py-4">
-          Type
-        </th>
-        <th
-          class="tw-px-6 tw-py-4">
-          Usage
-        </th>
-        <th class="tw-px-6 tw-py-4">
-          Tracking Status
-        </th>
-        <th
-          class="tw-px-6 tw-py-4 tw-rounded-tr-md">
-        </th>
-      </tr>
-      </thead>
-      <tbody *ngFor="let item of devicesList, let i=index">
-      <tr class="tw-bg-gray-50">
-        <td class="tw-px-6 tw-py-4">
-          {{item.deviceName}}
-        </td>
-        <td class="tw-px-6 tw-py-4">
-          {{item.deviceType}}
-        </td>
-        <td class="tw-px-6 tw-py-4">
-          <ng-container *ngFor="let usage of item.usageTypeList">
-            {{usage}} <br>
-          </ng-container>
-        </td>
-        <td>
-          <!--          <button *ngIf="!item.isTracked" (click)="toggleTracking(i)">Start tracking</button>-->
-          <!--          <button *ngIf="item.isTracked" (click)="toggleTracking(i)">Stop tracking</button>-->
+    <div class="tw-bg-white tw-rounded-md tw-min-w-fit tw-border tw-border-slate-200 tw-p-2.5">
+      <table
+        class="tw-border-collapse tw-table-auto  tw-text-sm tw-rounded-md tw-p-5">
+        <thead class="tw-bg-gray-200 tw-rounded-md">
+        <tr>
+          <th
+            class="tw-px-6 tw-py-4 tw-rounded-tl-md tw-text-sm">
+            Name
+          </th>
+          <th
+            class="tw-px-6 tw-py-4">
+            Type
+          </th>
+          <th
+            class="tw-px-6 tw-py-4">
+            Usage
+          </th>
+          <th class="tw-px-6 tw-py-4">
+            Tracking Status
+          </th>
+          <th
+            class="tw-px-6 tw-py-4 tw-rounded-tr-md">
+          </th>
+        </tr>
+        </thead>
+        <tbody *ngFor="let item of devicesList, let i=index">
+        <tr class="tw-bg-gray-50">
+          <td class="tw-px-6 tw-py-4">
+            {{item.deviceName}}
+          </td>
+          <td class="tw-px-6 tw-py-4">
+            {{item.deviceType}}
+          </td>
+          <td class="tw-px-6 tw-py-4">
+            <ng-container *ngFor="let usage of item.usageTypeList">
+              {{usage}} <br>
+            </ng-container>
+          </td>
+          <td>
+            <!--          <button *ngIf="!item.isTracked" (click)="toggleTracking(i)">Start tracking</button>-->
+            <!--          <button *ngIf="item.isTracked" (click)="toggleTracking(i)">Stop tracking</button>-->
 
-          <div class="tw-flex tw-items-center tw-space-x-2">
-            <div class="tw-inline-flex">Off</div>
-            <label for="{{i}}" class="tw-relative tw-inline-flex tw-cursor-pointer tw-items-center">
-              <input type="checkbox" id="{{i}}" [checked]="item.isTracked" (change)="toggleTracking(i)"
-                     class="tw-peer tw-sr-only"/>
-              <div class="tw-h-5 tw-w-9 tw-rounded-full tw-bg-gray-100 after:tw-absolute after:tw-top-0.5 after:tw-left-0.5
+            <div class="tw-flex tw-items-center tw-space-x-2">
+              <div class="tw-inline-flex">Off</div>
+              <label for="{{i}}" class="tw-relative tw-inline-flex tw-cursor-pointer tw-items-center">
+                <input type="checkbox" id="{{i}}" [checked]="item.isTracked" (change)="toggleTracking(i)"
+                       class="tw-peer tw-sr-only"/>
+                <div class="tw-h-5 tw-w-9 tw-rounded-full tw-bg-gray-100 after:tw-absolute after:tw-top-0.5 after:tw-left-0.5
                after:tw-h-4 after:tw-w-4 after:tw-rounded-full after:tw-bg-white after:tw-shadow after:tw-transition-all
                 after:tw-content-[''] hover:tw-bg-gray-200 peer-checked:tw-bg-primary-600 peer-checked:after:tw-translate-x-full
                  peer-checked:after:tw-border-white peer-focus:tw-ring-1 peer-focus:tw-ring-primary-200 peer-disabled:tw-cursor-not-allowed
                   peer-disabled:tw-bg-gray-100 peer-disabled:after:tw-bg-gray-50"></div>
-            </label>
-            <div class="tw-inline-flex">On</div>
-          </div>
-        </td>
-        <td class="tw-align-middle tw-p-2">
-          <div class="tw-inline-flex tw-align-middle tw-my-4 tw-gap-1">
-            <button class="btn custom-grey btn-sm btn-outline-dark" (click)="updateDevice(item.deviceId)"><img
-              width="25" height="25" src="assets/images/edit/icons8-edit-50.png"></button>
-            <button class="btn custom-grey btn-sm btn-outline-dark"
-                    (click)="openDeleteModal(item.deviceId, item.deviceName)"><img width="25" height="25"
-                                                                                   src="assets/images/delete/icons8-delete-50.png"/>
-            </button>
-            <button class="btn custom-grey btn-sm btn-outline-dark"
-                    (click)="showDeviceOnMap(item.deviceName, item.deviceId)"><img width="35" height="35"
-                                                                                   src="assets/images/map/icons8-map-48.png"/>
-            </button>
-            <button class="btn custom-grey btn-sm btn-outline-dark"
-                    (click)="showTrackingSettings(item.deviceName, item.deviceId)"><img width="35" height="35"
-                                                                                   src="assets/images/settings/icons8-gear-60.png"/>
-            </button>
+              </label>
+              <div class="tw-inline-flex">On</div>
+            </div>
+          </td>
+          <td class="tw-align-middle tw-p-2">
+            <div class="tw-inline-flex tw-align-middle tw-my-4 tw-gap-1">
+              <button class="btn custom-grey btn-sm btn-outline-dark" (click)="updateDevice(item.deviceId)"><img
+                width="25" height="25" src="assets/images/edit/icons8-edit-50.png"></button>
+              <button class="btn custom-grey btn-sm btn-outline-dark"
+                      (click)="openDeleteModal(item.deviceId, item.deviceName)"><img width="25" height="25"
+                                                                                     src="assets/images/delete/icons8-delete-50.png"/>
+              </button>
+              <button class="btn custom-grey btn-sm btn-outline-dark"
+                      (click)="showDeviceOnMap(item.deviceName, item.deviceId)"><img width="35" height="35"
+                                                                                     src="assets/images/map/icons8-map-48.png"/>
+              </button>
+              <button class="btn custom-grey btn-sm btn-outline-dark"
+                      (click)="showTrackingSettings(item.deviceName, item.deviceId)"><img width="35" height="35"
+                                                                                          src="assets/images/settings/icons8-gear-60.png"/>
+              </button>
 
-          </div>
-        </td>
-      </tr>
-      </tbody>
-      <tfoot>
-      <tr>
-        <th colspan="5" class="tw-h-3 tw-rounded-b-md tw-bg-gray-200"></th>
-      </tr>
-      </tfoot>
-    </table>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <th colspan="5" class="tw-h-3 tw-rounded-b-md tw-bg-gray-200"></th>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <button class="btn btn-light my-2" (click)="goToDeviceRegistration()">Add New Device</button>
   </div>
-
-  <button class="btn btn-light" (click)="goToDeviceRegistration()">Add New Device</button>
 </div>
 
 
 <!-- Modal -->
-<div class="modal" id="confirmDeleteModal" tabindex="-1">
+<div class="modal bg-light bg-opacity-50" id="confirmDeleteModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

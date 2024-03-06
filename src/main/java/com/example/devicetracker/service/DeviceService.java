@@ -99,6 +99,7 @@ public class DeviceService {
     }
 
     public Device findDeviceByImeiNumber(String imeiNumber) {
+        log.info("***IMEI: " + imeiNumber );
         Device deviceFound = deviceRepository.findByImeiNumber(imeiNumber).orElseThrow(EntityNotFoundException::new);
         return deviceFound;
     }

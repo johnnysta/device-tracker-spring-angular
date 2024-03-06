@@ -1,59 +1,61 @@
-<div class="container w-75 shadow my-3 p-5 rounded" *ngIf="initData">
+<div class="container p-5">
+  <div class="container w-75 shadow p-5 rounded bg-light bg-opacity-50 my-0" *ngIf="initData">
 
-  <h3 class="mb-3" *ngIf="existingDeviceData">Edit Device</h3>
-  <h3 class="mb-3" *ngIf="!existingDeviceData">Add New Device</h3>
+    <h3 class="mb-3" *ngIf="existingDeviceData">Edit Device</h3>
+    <h3 class="mb-3" *ngIf="!existingDeviceData">Add New Device</h3>
 
 
-  <form [formGroup]="deviceForm" (submit)="submitData()">
-    <div class="mb-3">
-      <label
-        for="deviceName"
-        class="form-label"
-      >Device name:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="deviceName"
-        formControlName="deviceName">
-    </div>
-    <div class="mb-3">
-      <label
-        for="imeiId"
-        class="form-label"
-      >IMEI number:</label>
-      <input
-        type="text"
-        class="form-control"
-        id="imeiId"
-        formControlName="imeiNumber">
-    </div>
+    <form [formGroup]="deviceForm" (submit)="submitData()">
+      <div class="mb-3">
+        <label
+          for="deviceName"
+          class="form-label"
+        >Device name:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="deviceName"
+          formControlName="deviceName">
+      </div>
+      <div class="mb-3">
+        <label
+          for="imeiId"
+          class="form-label"
+        >IMEI number:</label>
+        <input
+          type="text"
+          class="form-control"
+          id="imeiId"
+          formControlName="imeiNumber">
+      </div>
 
-    <div class="mb-3">
-      <label
-        for="deviceType"
-        class="form-label"
-      >Device type:</label>
-      <select
-        formControlName="deviceType"
-        class="form-control"
-        id="deviceType"
-      >
-        <option *ngFor="let deviceType of initData.deviceTypeList"
-                value="{{deviceType.name}}">{{deviceType.displayName}}</option>
-      </select>
-    </div>
+      <div class="mb-3">
+        <label
+          for="deviceType"
+          class="form-label"
+        >Device type:</label>
+        <select
+          formControlName="deviceType"
+          class="form-control"
+          id="deviceType"
+        >
+          <option *ngFor="let deviceType of initData.deviceTypeList"
+                  value="{{deviceType.name}}">{{deviceType.displayName}}</option>
+        </select>
+      </div>
 
-    <div formArrayName="usageTypeList" *ngFor="let usageType of initData.usageTypeList; let i = index">
-      <label>
-        <input type="checkbox" [formControlName]="i" [checked]="existingDeviceDataContains(usageType.name)">
-        {{ usageType.displayName }}
-      </label>
-    </div>
+      <div formArrayName="usageTypeList" *ngFor="let usageType of initData.usageTypeList; let i = index">
+        <label>
+          <input type="checkbox" [formControlName]="i" [checked]="existingDeviceDataContains(usageType.name)">
+          {{ usageType.displayName }}
+        </label>
+      </div>
 
-    <button
-      type="submit"
-      class="btn btn-success"
-    >Submit
-    </button>
-  </form>
+      <button
+        type="submit"
+        class="btn btn-success"
+      >Submit
+      </button>
+    </form>
+  </div>
 </div>

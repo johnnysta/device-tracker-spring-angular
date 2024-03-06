@@ -1,2 +1,5 @@
-<app-navbar  [user]="loggedInUser" (logoutEmitter)="getUserInfo()" ></app-navbar>
+<div id="container" >
+<app-navbar [user]="loggedInUser" (logoutEmitter)="getUserInfo()"></app-navbar>
 <router-outlet></router-outlet>
+</div>
+

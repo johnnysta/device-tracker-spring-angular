@@ -8,5 +8,4 @@ public class TrackingSettingsDataDto {
     private Double geofenceCenterLatitude;
     private Double geofenceCenterLongitude;
     private Integer geofenceRadius;
-
 }

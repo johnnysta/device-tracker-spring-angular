@@ -84,4 +84,7 @@ public class DeviceController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+
+
 }

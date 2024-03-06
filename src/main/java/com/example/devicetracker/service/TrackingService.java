@@ -26,6 +26,7 @@ public class TrackingService {
     private TrackingMapper trackingMapper;
 
     public void saveTrackingData(TrackingDataDto trackingDataDto) {
+        log.info("***IMEI: " +trackingDataDto.getDeviceImeiNumber());
         Device device = deviceService.findDeviceByImeiNumber(trackingDataDto.getDeviceImeiNumber());
         Location location = new Location(trackingDataDto.getLatitude(), trackingDataDto.getLongitude());
         trackingRepository.save(trackingMapper.mapFromTrackingDataDtoToTrackingData(trackingDataDto, device, location));

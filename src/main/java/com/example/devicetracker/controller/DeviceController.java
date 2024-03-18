@@ -72,19 +72,24 @@ public class DeviceController {
 
 
     @GetMapping("/trackingSettings/{deviceId}")
-    public ResponseEntity<TrackingSettingsDataDto> getTrackingSettings(@PathVariable Long deviceId){
+    public ResponseEntity<TrackingSettingsDataDto> getTrackingSettingsByDeviceId(@PathVariable Long deviceId) {
         TrackingSettingsDataDto trackingSettingsDataDto = deviceService.findTrackingSettingsDataDtoById(deviceId);
         return new ResponseEntity<>(trackingSettingsDataDto, HttpStatus.OK);
     }
 
 
     @PutMapping("/trackingSettings/{deviceId}")
-    public ResponseEntity<Void> updateTrackingSettings(@PathVariable Long deviceId, @RequestBody TrackingSettingsDataDto trackingSettingsDataDto){
+    public ResponseEntity<Void> updateTrackingSettingsByDeviceId(@PathVariable Long deviceId, @RequestBody TrackingSettingsDataDto trackingSettingsDataDto) {
         deviceService.setTrackingSettingsById(deviceId, trackingSettingsDataDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
+    @GetMapping("/trackingSettingsByDevice/{deviceIMEI}")
+    public ResponseEntity<TrackingSettingsDataDto> getTrackingSettingsByDeviceImei(@PathVariable String deviceIMEI) {
+        TrackingSettingsDataDto trackingSettingsDataDto = deviceService.getTrackingSettingsByDeviceImei(deviceIMEI);
+        return new ResponseEntity<>(trackingSettingsDataDto, HttpStatus.OK);
+    }
 
 
 }

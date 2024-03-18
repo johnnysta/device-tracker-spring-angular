@@ -99,7 +99,7 @@ public class DeviceService {
     }
 
     public Device findDeviceByImeiNumber(String imeiNumber) {
-        log.info("***IMEI: " + imeiNumber );
+        log.info("***IMEI: " + imeiNumber);
         Device deviceFound = deviceRepository.findByImeiNumber(imeiNumber).orElseThrow(EntityNotFoundException::new);
         return deviceFound;
     }
@@ -128,5 +128,10 @@ public class DeviceService {
             geofenceCenter.setLongitude(trackingSettingsDataDto.getGeofenceCenterLongitude());
         }
         trackingSettingsRepository.save(trackingSettings);
+    }
+
+    public TrackingSettingsDataDto getTrackingSettingsByDeviceImei(String deviceIMEI) {
+        Device deviceFound = findDeviceByImeiNumber(deviceIMEI);
+        return findTrackingSettingsDataDtoById(deviceFound.getId());
     }
 }

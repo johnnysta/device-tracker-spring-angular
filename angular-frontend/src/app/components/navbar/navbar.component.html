@@ -1,33 +1,35 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary bg-light bg-opacity-75">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Tracker</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" routerLink="user-registration">User Registration</a>
         </li>
-        <li class="nav-item" *ngIf="!user?.isLoggedIn">
-          <a class="nav-link" routerLink="login">Log in</a>
-        </li>
-        <li class="nav-item" *ngIf="user?.isLoggedIn">
-          <a class="nav-link"  (click)="logout()">Log out</a>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="users" *ngIf="user?.isLoggedIn">Users</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="users">Users</a>
+          <a class="nav-link" routerLink="device-registration-update" *ngIf="user?.isLoggedIn">Device Registration</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="device-registration-update">Device Registration</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="devices">Devices</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="test">Test</a>
+          <a class="nav-link" routerLink="home" *ngIf="user?.isLoggedIn">Devices</a>
         </li>
       </ul>
+
+      <span class="navbar-text me-3" *ngIf="user?.isLoggedIn">
+        Logged in as <span class="fw-semibold">{{user?.userName}}</span>
+      </span>
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <button class="btn btn-outline-success" routerLink="login" *ngIf="!user?.isLoggedIn">Login</button>
+        <button class="btn btn-outline-success" (click)="logout()" *ngIf="user?.isLoggedIn">Logout</button>
+      </ul>
+
     </div>
   </div>
 </nav>
+
